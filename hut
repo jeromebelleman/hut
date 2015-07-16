@@ -1,0 +1,94 @@
+#! /usr/bin/env python
+#     Irina Grigorescu 
+#  irina.grigorescu@cern.ch
+
+import os
+import sys
+import string
+import argparse
+import yaml
+
+from mako.template import Template
+
+# File/Folder Parameters
+OUTDIR = 'output'
+TPLDIR = 'templates'
+
+def main():
+    global OUTDIR, TPLDIR
+
+    # Check Arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('template', help = "template dashboard file")
+    parser.add_argument('data', help = "data YAML file")
+    args = parser.parse_args()
+		
+    try:
+        # Load template
+	with open(TPLDIR + "/" + args.template) as f:
+	    template = f.read()
+		
+	# Load data
+	with open(TPLDIR + "/" + args.data) as f:
+	    data = yaml.load(f, Loader = yaml.BaseLoader)
+			
+	print data
+
+        myTemplate = Template(template);
+        print(myTemplate.render(ids = [0,1,2,3,4], queries=[['false','#ff0000','@message.queue_name=\"1nd\"'],['false','#ccbb99','@message.queue_name=\"1nh\"'],['false','#99cc99','@message.queue_name=\"1nw\"'],['false','#acc3e6','@message.queue_name=\"2nd\"'],['false','#40103d','@message.queue_name=\"2nw\"']]))
+        
+        sys.exit(0)
+
+    except IOError, exc:
+        print >> sys.stderr, exc
+        return 1
+
+        
+    # Create dashboard output file
+    if not os.path.exists(OUTDIR):
+        os.makedirs(OUTDIR)
+    if os.path.exists(OUTDIR + '/' + FILEOUT):
+        # TODO: try-catch or
+        printError("File already exists")
+        sys.exit(0)
+
+    # Create output file
+    f = open(OUTDIR + '/' + FILEOUT, 'w')
+
+    # Populate primary fields
+
+
+    # Start to populate it
+    f.write('{')
+
+    # End file
+    f.write('}')
+    
+    f.close()
+
+
+
+
+def printUsage():
+    print("./hut <dashboard.json>")
+
+def printError(text):
+    print(text)
+
+if __name__ == "__main__":
+    sys.exit(main())
+
+'''
+index
+style
+rows
+title
+failover
+editable
+refresh
+loader
+pulldowns
+nav
+services
+panel_hints
+'''
