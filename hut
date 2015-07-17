@@ -27,68 +27,40 @@ def main():
         # Load template
 	with open(TPLDIR + "/" + args.template) as f:
 	    template = f.read()
-		
+	f.close()
+
 	# Load data
 	with open(TPLDIR + "/" + args.data) as f:
 	    data = yaml.load(f, Loader = yaml.BaseLoader)
-			
-	print data
+	f.close()
 
+        fileout = args.template + '.out.json'
+
+        # Prepare data
+        ids = [];
+        for i in range(len(data['queries'])):
+            ids.append(i);
+
+        queries = [];
+        for i in range(len(data['queries'])):
+            queries.append(data['queries'][i]);
+
+        print queries[0]
+
+        # Create output file
         myTemplate = Template(template);
-        print(myTemplate.render(ids = [0,1,2,3,4], queries=[['false','#ff0000','@message.queue_name=\\\"1nd\\\"'],['false','#ccbb99','@message.queue_name=\\\"1nh\\\"'],['false','#99cc99','@message.queue_name=\\\"1nw\\\"'],['false','#acc3e6','@message.queue_name=\\\"2nd\\\"'],['false','#40103d','@message.queue_name=\\\"2nw\\\"']]))
-        
-        sys.exit(0)
+        with open(OUTDIR + '/' + fileout, 'w') as f:
+            f.write(myTemplate.render(ids = ids, queries = queries))
+        f.close()
+
+        print(myTemplate.render(ids = ids, queries = queries))
 
     except IOError, exc:
+        printUsage()
         print >> sys.stderr, exc
         return 1
 
-        
-    # Create dashboard output file
-    if not os.path.exists(OUTDIR):
-        os.makedirs(OUTDIR)
-    if os.path.exists(OUTDIR + '/' + FILEOUT):
-        # TODO: try-catch or
-        printError("File already exists")
-        sys.exit(0)
-
-    # Create output file
-    f = open(OUTDIR + '/' + FILEOUT, 'w')
-
-    # Populate primary fields
-
-
-    # Start to populate it
-    f.write('{')
-
-    # End file
-    f.write('}')
-    
-    f.close()
-
-
-
-
-def printUsage():
-    print("./hut <dashboard.json>")
-
-def printError(text):
-    print(text)
 
 if __name__ == "__main__":
     sys.exit(main())
 
-'''
-index
-style
-rows
-title
-failover
-editable
-refresh
-loader
-pulldowns
-nav
-services
-panel_hints
-'''
