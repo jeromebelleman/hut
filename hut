@@ -35,7 +35,7 @@ def main():
 	print data
 
         myTemplate = Template(template);
-        print(myTemplate.render(ids = [0,1,2,3,4], queries=[['false','#ff0000','@message.queue_name=\"1nd\"'],['false','#ccbb99','@message.queue_name=\"1nh\"'],['false','#99cc99','@message.queue_name=\"1nw\"'],['false','#acc3e6','@message.queue_name=\"2nd\"'],['false','#40103d','@message.queue_name=\"2nw\"']]))
+        print(myTemplate.render(ids = [0,1,2,3,4], queries=[['false','#ff0000','@message.queue_name=\\\"1nd\\\"'],['false','#ccbb99','@message.queue_name=\\\"1nh\\\"'],['false','#99cc99','@message.queue_name=\\\"1nw\\\"'],['false','#acc3e6','@message.queue_name=\\\"2nd\\\"'],['false','#40103d','@message.queue_name=\\\"2nw\\\"']]))
         
         sys.exit(0)
 
