@@ -38,12 +38,12 @@ def main():
 
         # Prepare data
         ids = [];
-        for i in range(len(data['queries'])):
+        for i in range(len(data[str(args.template)])):
             ids.append(i);
 
         queries = [];
-        for i in range(len(data['queries'])):
-            queries.append(data['queries'][i]);
+        for i in range(len(data[str(args.template)])):
+            queries.append(data[str(args.template)][i]);
 
         print queries[0]
 
