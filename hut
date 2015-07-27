@@ -37,23 +37,26 @@ def main():
         fileout = args.template + '.out.json'
 
         # Prepare data
-        ids = [];
+        rows = [];
         for i in range(len(data[str(args.template)])):
-            ids.append(i);
+            rows.append(data[str(args.template)][i]);
 
-        queries = [];
-        for i in range(len(data[str(args.template)])):
-            queries.append(data[str(args.template)][i]);
+        print rows
+        print numberOfElems
+        print "\n"
+        print rows[0]['panel']['content']
+        print "\n"
+        print rows[1]['panel']['content']
+        print "\n"
 
-        print queries[0]
-
+        #sys.exit(0)
         # Create output file
         myTemplate = Template(template);
         with open(OUTDIR + '/' + fileout, 'w') as f:
-            f.write(myTemplate.render(ids = ids, queries = queries))
+            f.write(myTemplate.render(rows = rows))
         f.close()
 
-        print(myTemplate.render(ids = ids, queries = queries))
+        print(myTemplate.render(rows = rows))
 
     except IOError, exc:
         printUsage()
