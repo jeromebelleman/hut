@@ -42,7 +42,6 @@ def main():
             rows.append(data[str(args.template)][i]);
 
         print rows
-        print numberOfElems
         print "\n"
         print rows[0]['panel']['content']
         print "\n"
