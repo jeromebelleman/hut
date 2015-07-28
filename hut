@@ -41,7 +41,7 @@ def main():
         rows = [];
         for i in range(len(data[str(args.template)])):
             rows.append(data[str(args.template)][i]);
-
+        print rows[0]['panel'][1]['title']
         #sys.exit(0)
         # Create output file
         myTemplate = Template(template);
