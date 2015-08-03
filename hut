@@ -41,18 +41,16 @@ def main():
         rows = [];
         for i in range(len(data[str(args.template)])):
             rows.append(data[str(args.template)][i]);
-        print rows[0]['panel'][1]['title']
-        #sys.exit(0)
+
         # Create output file
         myTemplate = Template(template);
         with open(OUTDIR + '/' + fileout, 'w') as f:
             f.write(myTemplate.render(rows = rows))
         f.close()
 
-        print(myTemplate.render(rows = rows))
+        #print(myTemplate.render(rows = rows))
 
     except IOError, exc:
-        printUsage()
         print >> sys.stderr, exc
         return 1
 
