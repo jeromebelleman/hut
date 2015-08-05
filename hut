@@ -1,60 +1,40 @@
 #! /usr/bin/env python
-#     Irina Grigorescu 
-#  irina.grigorescu@cern.ch
+# Irina Grigorescu 
+# irina.grigorescu@cern.ch
+
+'''
+A Kibana dashboard template tool
+'''
 
 import os
 import sys
-import time
-import string
 import argparse
-import yaml
 
 from mako.template import Template
 
-# File/Folder Parameters
-OUTDIR = 'output'
-TPLDIR = 'templates'
-
 def main():
-    global OUTDIR, TPLDIR
+    '''
+    Main function
+    '''
 
     # Check Arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('template', help = "template dashboard file")
-    parser.add_argument('data', help = "data YAML file")
+    parser = argparse.ArgumentParser(description="A dashboard template tool.")
+    parser.add_argument('directory', help="dashboard template directory")
+    parser.add_argument('output', help="output file")
     args = parser.parse_args()
-		
+        
     try:
-        # Load template
-	with open(TPLDIR + "/" + args.template) as f:
-	    template = f.read()
-	f.close()
-
-	# Load data
-	with open(TPLDIR + "/" + args.data) as f:
-	    data = yaml.load(f, Loader = yaml.BaseLoader)
-	f.close()
-
-        fileout = args.template + '.out.json'
-
-        # Prepare data
-        rows = [];
-        for i in range(len(data[str(args.template)])):
-            rows.append(data[str(args.template)][i]);
+        # Load JSON template
+        template = Template(filename=args.directory + '/template.json')
 
         # Create output file
-        myTemplate = Template(template);
-        with open(OUTDIR + '/' + fileout, 'w') as f:
-            f.write(myTemplate.render(rows = rows))
-        f.close()
-
-        #print(myTemplate.render(rows = rows))
+        with open(args.output, 'w') as fhl:
+            os.chdir(args.directory)
+            fhl.write(template.render())
 
     except IOError, exc:
         print >> sys.stderr, exc
         return 1
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())
-
