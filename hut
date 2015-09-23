@@ -24,24 +24,34 @@ def main():
     parser = argparse.ArgumentParser(description="A dashboard template tool.")
     parser.add_argument('directory', help="dashboard template directory")
     parser.add_argument('output', help="output file")
+    parser.add_argument('-f', '--force', action='store_true',
+                        help="write JSON file even if invalid")
     args = parser.parse_args()
         
+    # Load JSON template
     try:
-        # Load JSON template
         template = Template(filename=args.directory + '/template.json')
+        cwd = os.getcwd()
+        os.chdir(args.directory)
+        body = template.render()
+        os.chdir(cwd)
+    except IOError, exc:
+        print >> sys.stderr, exc
+        return 1
 
-        # Create output file
+    # Check JSON validity
+    try:
+        json.loads(body)
+    except ValueError, exc:
+        print >> sys.stderr, exc
+        if not args.force:
+            return 1
+
+    # Write output file
+    try:
         with open(args.output, 'w') as fhl:
-            cwd = os.getcwd()
-            os.chdir(args.directory)
-            fhl.write(template.render())
-            os.chdir(cwd)
-
-        # Check JSON validity
-        with open(args.output, 'r') as fhl:
-            json.load(fhl)
-
-    except (IOError, ValueError), exc:
+            fhl.write(body)
+    except IOError, exc:
         print >> sys.stderr, exc
         return 1
 
