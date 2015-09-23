@@ -22,8 +22,9 @@ def main():
 
     # Check Arguments
     parser = argparse.ArgumentParser(description="A dashboard template tool.")
-    parser.add_argument('directory', help="dashboard template directory")
-    parser.add_argument('output', help="output file")
+    parser.add_argument('directory', metavar='DIRECTORY',
+                        help="dashboard template directory")
+    parser.add_argument('output', metavar='OUTPUT', help="output file")
     parser.add_argument('-f', '--force', action='store_true',
                         help="write JSON file even if invalid")
     args = parser.parse_args()
