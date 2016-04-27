@@ -45,16 +45,22 @@ def main():
         
     # Load JSON template
     try:
+        changeddir = False
         template = mako.template.Template(filename=args.directory + \
                                           '/template.json')
         cwd = os.getcwd()
         os.chdir(args.directory)
+        changeddir = True
         body = template.render()
         os.chdir(cwd)
+        changeddir = False
     except IOError, exc:
         print >> sys.stderr, exc
         return 1
     except Exception:
+        if changeddir:
+            os.chdir(cwd)
+            changeddir = False
         printtrace(mako.exceptions.text_error_template().render())
         return 1
 
