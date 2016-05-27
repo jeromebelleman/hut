@@ -29,6 +29,10 @@ def printtrace(trace):
             print line
             relevant = True
 
+    # Print last line if nothing was found to be relevant
+    if not relevant:
+        print line
+
 def main():
     '''
     Main function
