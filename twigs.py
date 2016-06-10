@@ -1,15 +1,5 @@
 import datetime
 
-def include(path):
-    with open(path) as fhl:
-        return fhl.read().replace('\n', '\\n')
-
-def now():
-    return datetime.datetime.now().strftime('%c')
-
-def comma(i, lst):
-    return '' if i == len(lst) - 1 else ','
-
 colours = [
     '#7EB26D', '#EAB839', '#6ED0E0', '#EF843C', '#E24D42', '#1F78C1',
     '#BA43A9', '#705DA0', '#508642', '#CCA300', '#447EBC', '#C15C17',
@@ -22,3 +12,60 @@ colours = [
     '#E0F9D7', '#FCEACA', '#CFFAFF', '#F9E2D2', '#FCE2DE', '#BADFF4',
     '#F9D9F9', '#DEDAF7',
 ]
+
+def include(path):
+    with open(path) as fhl:
+        return fhl.read().replace('\n', '\\n')
+
+def now():
+    return datetime.datetime.now().strftime('%c')
+
+def pulldowns(enable=True):
+    return '''"pulldowns": [
+    {
+      "type": "query",
+      "collapse": true,
+      "enable": %s
+    },
+    {
+      "type": "filtering",
+      "collapse": true,
+      "enable": %s
+    }
+  ]''' % (str(enable).lower(), str(enable).lower())
+
+def nav(enable=True):
+    return '''"nav": [
+    {
+      "type": "timepicker",
+      "enable": %s,
+      "timefield": "@timestamp",
+      "filter_id": 0
+    }
+  ]''' % str(enable).lower()
+
+def loader():
+    return '''"loader": {
+    "save_gist": true,
+    "save_default": false,
+    "load_gist": true,
+    "load_local": true
+  }'''
+
+def links(path):
+    with open(path) as fhl:
+        contents = fhl.read().replace('\n', '\\n').replace('"', '\\"')
+
+    # HTML mode to support &bull;
+    return '''{
+      "height": "0px",
+      "panels": [
+        {
+          "span": 12,
+          "title": "Links",
+          "content": "%s",
+          "type": "text",
+          "mode": "html"
+        }
+      ]
+    }''' % contents
