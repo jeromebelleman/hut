@@ -39,7 +39,8 @@ def main():
     '''
 
     # Check Arguments
-    parser = argparse.ArgumentParser(description="A dashboard template tool.")
+    parser = argparse.ArgumentParser(description='''A Kibana dashboard
+        template tool.''')
     parser.add_argument('directory', metavar='DIRECTORY',
                         help="dashboard template directory")
     parser.add_argument('output', metavar='OUTPUT', help="output file")
