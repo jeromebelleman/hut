@@ -1,3 +1,5 @@
+Hut generates Kibana dashboard JSON files from Mako templates. It makes it possible to programmatically, and with less JSON code, write large numbers of complex dashboards.
+
 # NAME
 
 hut - a Kibana dashboard template tool
